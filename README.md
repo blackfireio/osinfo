@@ -15,21 +15,21 @@ The following fields are provided by the `OSInfo` struct:
 | Version      | The release version                     |
 | Build        | The build number (if any)               |
 
-
-
 Supported Operating Systems
 ---------------------------
 
 The following operating systems are currently supported:
 
- * Linux
- * FreeBSD
- * Mac OS
- * Windows
+- Linux
+- FreeBSD
+- macOS
+- Windows
 
-If you wish to see another operating system supported (provided it is in [this list](https://github.com/golang/go/blob/master/src/go/build/syslist.go)), please open a pull request with the necessary changes and tests. Use one of the existing `getOSInfoXYZ()` functions as a guide (most commonly it involves parsing the output from a command or file).
-
-
+If you wish to see another operating system supported (provided it is in
+[this list](https://github.com/golang/go/blob/master/src/go/build/syslist.go)),
+please open a pull request with the necessary changes and tests.
+Use one of the existing `getOSInfoXYZ()` functions as a guide (most commonly
+it involves parsing the output from a command or file).
 
 Usage
 -----
@@ -49,9 +49,7 @@ Usage
 	fmt.Printf("Build:        %v\n", info.Build)
 ```
 
-
-
-### Output on various platforms:
+### Output on various platforms
 
 #### Ubuntu Linux
 
@@ -62,7 +60,7 @@ ID:           ubuntu
 Name:         Ubuntu
 Codename:     eoan
 Version:      19.10
-Build:        
+Build:
 ```
 
 ### Alpine Linux
@@ -72,9 +70,9 @@ Family:       linux
 Architecture: amd64
 ID:           alpine
 Name:         Alpine Linux
-Codename:     
+Codename:
 Version:      3.8.0
-Build:        
+Build:
 ```
 
 #### Windows
@@ -96,7 +94,7 @@ Family:       freebsd
 Architecture: amd64
 ID:           freebsd
 Name:         FreeBSD
-Codename:     
+Codename:
 Version:      12.0-RELEASE
 Build:        r341666
 ```
@@ -113,8 +111,6 @@ Version:      10.12.6
 Build:        16G2136
 ```
 
-
-
 License
 -------
 
@@ -122,8 +118,15 @@ Copyright (c) 2019 Blackfire SAS (https://blackfire.io). All rights reserved.
 
 License type: MIT
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software,
+and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial
+portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
