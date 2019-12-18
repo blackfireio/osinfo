@@ -137,7 +137,7 @@ func parseMacSWVers(info *OSInfo, productVersion, buildVersion string) error {
 	if ok {
 		info.Codename = codeName
 	} else {
-		info.Codename = "(unknown)"
+		info.Codename = "unknown"
 	}
 
 	return nil
@@ -273,11 +273,45 @@ func getOSInfoMac() (info *OSInfo, err error) {
 	return
 }
 
+func getOSInfoUnknown() (info *OSInfo, err error) {
+	info = new(OSInfo)
+	populateFromRuntime(info)
+	info.ID = "unknown"
+	info.Name = "unknown"
+	info.Version = "unknown"
+
+	// Try to fill with contents of `uname`.
+	var contents string
+	contents, err = readCommandOutput("/usr/bin/uname")
+	if err == nil {
+		info.Name = contents
+	}
+
+	err = fmt.Errorf("%v: Unhandled OS", runtime.GOOS)
+
+	return
+}
+
 // ==========
 // Public API
 // ==========
 
+// Get information about the current operating system.
+// The OSInfo object will always be valid, even on error.
+// If an error occurs, OSInfo will contain at least the Family and Architecture
+// fields, with a good chance that Name will also contain something.
 func GetOSInfo() (*OSInfo, error) {
+
+	// To add support for a new system, create a new getOSInfoXYZ() function and
+	// then add a case statement for its GOOS value, listed here:
+	//   https://github.com/golang/go/blob/master/src/go/build/syslist.go
+
+	// getOSInfoXYZ() guidelines:
+	// * Prefer text files (such as /etc/os-release) or /proc to commands.
+	// * Prefer simple, well established commands (such as uname).
+	// * Any command must work on a pristine system with nothing else installed.
+	// * Always use the full path to a command for security reasons.
+
 	switch runtime.GOOS {
 	case "windows":
 		return getOSInfoWindows()
@@ -288,6 +322,6 @@ func GetOSInfo() (*OSInfo, error) {
 	case "freebsd":
 		return getOSInfoFreeBSD()
 	default:
-		return nil, fmt.Errorf("%v: Unhandled OS", runtime.GOOS)
+		return getOSInfoUnknown()
 	}
 }

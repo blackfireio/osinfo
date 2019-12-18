@@ -145,8 +145,7 @@ HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion
 func TestDemonstrate(t *testing.T) {
 	info, err := GetOSInfo()
 	if err != nil {
-		t.Errorf("Could not get OS info: %v", err)
-		return
+		t.Errorf("Error while getting OS info: %v", err)
 	}
 
 	fmt.Printf("Family:       %v\n", info.Family)
