@@ -201,6 +201,12 @@ func getOSInfoWindows() (info *OSInfo, err error) {
 		return
 	}
 
+	var servicePack string
+	servicePack, err = getRegistryString("CSDVersion")
+	if err == nil {
+		info.Name = info.Name + " " + servicePack
+	}
+
 	if versionMajor == 0 {
 		info.Version, err = getRegistryString("CurrentVersion")
 		if err != nil {
@@ -212,7 +218,7 @@ func getOSInfoWindows() (info *OSInfo, err error) {
 
 	info.Codename, err = getRegistryString("ReleaseID")
 	if err != nil {
-		return
+		info.Codename = ""
 	}
 
 	info.Build, err = getRegistryString("CurrentBuild")
