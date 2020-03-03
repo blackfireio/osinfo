@@ -36,9 +36,34 @@ type OSInfo struct {
 	Build        string
 }
 
-// =========
-// Utilities
-// =========
+// GetOSInfo gets information about the current operating system.
+// The OSInfo object will always be valid, even on error.
+// If an error occurs, OSInfo will contain at least the Family and Architecture
+// fields, with a good chance that Name will also contain something.
+func GetOSInfo() (*OSInfo, error) {
+	// To add support for a new system, create a new getOSInfoXYZ() function and
+	// then add a case statement for its GOOS value, listed here:
+	//   https://github.com/golang/go/blob/master/src/go/build/syslist.go
+
+	// getOSInfoXYZ() guidelines:
+	// * Prefer text files (such as /etc/os-release) or /proc to commands.
+	// * Prefer simple, well established commands (such as uname).
+	// * Any command must work on a pristine system with nothing else installed.
+	// * Always use the full path to a command for security reasons.
+
+	switch runtime.GOOS {
+	case "windows":
+		return getOSInfoWindows()
+	case "darwin":
+		return getOSInfoMac()
+	case "linux":
+		return getOSInfoLinux()
+	case "freebsd":
+		return getOSInfoFreeBSD()
+	default:
+		return getOSInfoUnknown()
+	}
+}
 
 func readTextFile(path string) (result string, err error) {
 	var bytes []byte
@@ -92,10 +117,6 @@ func extractRegistryInt(id string, regCommandOutput string) (int, error) {
 func getRegistryRaw(id string) (string, error) {
 	return readCommandOutput(`C:\Windows\system32\reg.exe`, `query`, `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion`, `/v`, id)
 }
-
-// ========
-// Populate
-// ========
 
 func populateFromRuntime(info *OSInfo) {
 	info.Architecture = runtime.GOARCH
@@ -174,10 +195,6 @@ func getRegistryInt(id string) (int, error) {
 
 	return extractRegistryInt(id, raw)
 }
-
-// =============
-// Major OS Info
-// =============
 
 func getOSInfoWindows() (info *OSInfo, err error) {
 	info = new(OSInfo)
@@ -290,38 +307,4 @@ func getOSInfoUnknown() (info *OSInfo, err error) {
 	err = fmt.Errorf("%v: Unhandled OS", runtime.GOOS)
 
 	return
-}
-
-// ==========
-// Public API
-// ==========
-
-// Get information about the current operating system.
-// The OSInfo object will always be valid, even on error.
-// If an error occurs, OSInfo will contain at least the Family and Architecture
-// fields, with a good chance that Name will also contain something.
-func GetOSInfo() (*OSInfo, error) {
-
-	// To add support for a new system, create a new getOSInfoXYZ() function and
-	// then add a case statement for its GOOS value, listed here:
-	//   https://github.com/golang/go/blob/master/src/go/build/syslist.go
-
-	// getOSInfoXYZ() guidelines:
-	// * Prefer text files (such as /etc/os-release) or /proc to commands.
-	// * Prefer simple, well established commands (such as uname).
-	// * Any command must work on a pristine system with nothing else installed.
-	// * Always use the full path to a command for security reasons.
-
-	switch runtime.GOOS {
-	case "windows":
-		return getOSInfoWindows()
-	case "darwin":
-		return getOSInfoMac()
-	case "linux":
-		return getOSInfoLinux()
-	case "freebsd":
-		return getOSInfoFreeBSD()
-	default:
-		return getOSInfoUnknown()
-	}
 }
