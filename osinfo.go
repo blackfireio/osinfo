@@ -12,6 +12,7 @@ import (
 	"io/ioutil"
 	"regexp"
 	"runtime"
+	"strings"
 )
 
 // Note: This must be updated with every new Mac OS release.
@@ -137,6 +138,13 @@ func parseEtcOSRelease(info *OSInfo, contents string) {
 	}
 	if v, ok := keyvalues["VERSION_CODENAME"]; ok && info.Codename == "" {
 		info.Codename = v
+	}
+
+	if info.Version == "" && info.Name == "Debian GNU/Linux" {
+		if v, ok := keyvalues["PRETTY_NAME"]; ok && strings.Contains(v, "bullseye/sid") {
+			info.Version = "11"
+			info.Codename = "bullseye/sid"
+		}
 	}
 }
 

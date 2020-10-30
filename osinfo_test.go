@@ -277,6 +277,22 @@ DISTRIB_DESCRIPTION="Ubuntu 19.10"
 	expectEqualStrings(t, "eoan", info.Codename)
 }
 
+func TestDebianSid(t *testing.T) {
+	osRelease := `PRETTY_NAME="Debian GNU/Linux bullseye/sid"
+NAME="Debian GNU/Linux"
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+`
+	info := new(OSInfo)
+	parseEtcOSRelease(info, osRelease)
+	expectEqualStrings(t, "debian", info.ID)
+	expectEqualStrings(t, "11", info.Version)
+	expectEqualStrings(t, "Debian GNU/Linux", info.Name)
+	expectEqualStrings(t, "bullseye/sid", info.Codename)
+}
+
 func TestMacOSSierra(t *testing.T) {
 	info := new(OSInfo)
 	productVersion := "10.12.6"
