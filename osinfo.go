@@ -24,6 +24,9 @@ var macCodeNames = map[string]string{
 	"10.13": "High Sierra",
 	"10.14": "Mojave",
 	"10.15": "Catalina",
+	"10.16": "Big Sur", // Big Sur is both 10.16 and 11.0
+	"11.0":  "Big Sur", // See https://en.wikipedia.org/wiki/MacOS_Big_Sur#Development_history
+	"12.0":  "Monterey",
 }
 
 type OSInfo struct {
