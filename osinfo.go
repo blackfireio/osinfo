@@ -28,6 +28,7 @@ var macCodeNames = map[string]string{
 	"11.0":  "Big Sur", // See https://en.wikipedia.org/wiki/MacOS_Big_Sur#Development_history
 	"12.0":  "Monterey",
 	"13.0":  "Ventura",
+	"14.0":  "Sonoma",
 }
 
 type OSInfo struct {
