@@ -369,3 +369,30 @@ func TestDemonstrate(t *testing.T) {
 	fmt.Printf("Version:      %v\n", info.Version)
 	fmt.Printf("Build:        %v\n", info.Build)
 }
+
+func TestWSL(t *testing.T) {
+	osRelease := `NAME="Ubuntu"
+VERSION="20.04 LTS (Focal Fossa)"
+ID=ubuntu
+ID_LIKE=debian
+PRETTY_NAME="Ubuntu 20.04 LTS"
+VERSION_ID="20.04"
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+VERSION_CODENAME=focal
+UBUNTU_CODENAME=focal`
+
+	info := new(OSInfo)
+	info.IsWSL = true // Simulate WSL detection
+	parseEtcOSRelease(info, osRelease)
+
+	expectEqualStrings(t, "ubuntu", info.ID)
+	expectEqualStrings(t, "20.04", info.Version)
+	expectEqualStrings(t, "Ubuntu (WSL)", info.Name)
+	expectEqualStrings(t, "focal", info.Codename)
+	if !info.IsWSL {
+		t.Error("Expected IsWSL to be true")
+	}
+}

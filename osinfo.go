@@ -12,10 +12,12 @@ import (
 	"io/ioutil"
 	"regexp"
 	"runtime"
+	"strings"
 )
 
 // Note: This must be updated with every new Mac OS release.
-//       There is no other reliable way to get the "marketing" name from a mac.
+//
+//	There is no other reliable way to get the "marketing" name from a mac.
 var macCodeNames = map[string]string{
 	// Mininum 10.10 (https://github.com/golang/go/wiki/MinimumRequirements)
 	"10.10": "Yosemite",
@@ -39,6 +41,7 @@ type OSInfo struct {
 	Codename     string
 	Version      string
 	Build        string
+	IsWSL        bool
 }
 
 // GetOSInfo gets information about the current operating system.
@@ -139,6 +142,9 @@ func parseEtcOSRelease(info *OSInfo, contents string) {
 	}
 	if v, ok := keyvalues["NAME"]; ok && info.Name == "" {
 		info.Name = v
+		if info.IsWSL {
+			info.Name = fmt.Sprintf("%s (WSL)", info.Name)
+		}
 	}
 	if v, ok := keyvalues["VERSION_CODENAME"]; ok && info.Codename == "" {
 		info.Codename = v
@@ -272,6 +278,8 @@ func getOSInfoLinux() (info *OSInfo, err error) {
 	info = new(OSInfo)
 	populateFromRuntime(info)
 
+	info.IsWSL = checkWSL()
+
 	var contents string
 	if contents, err = readTextFile("/etc/os-release"); err == nil {
 		parseEtcOSRelease(info, contents)
@@ -343,4 +351,13 @@ func getOSInfoUnknown() (info *OSInfo, err error) {
 	err = fmt.Errorf("%v: Unhandled OS", runtime.GOOS)
 
 	return
+}
+
+func checkWSL() bool {
+	contents, err := readTextFile("/proc/version")
+	if err != nil {
+		return false
+	}
+	return strings.Contains(strings.ToLower(contents), "microsoft") ||
+		strings.Contains(strings.ToLower(contents), "wsl")
 }

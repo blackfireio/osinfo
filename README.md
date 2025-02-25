@@ -47,6 +47,7 @@ Usage
 	fmt.Printf("Codename:     %v\n", info.Codename)
 	fmt.Printf("Version:      %v\n", info.Version)
 	fmt.Printf("Build:        %v\n", info.Build)
+	fmt.Printf("IsWSL:        %t\n", info.IsWSL)
 ```
 
 ### Output on various platforms
@@ -61,6 +62,20 @@ Name:         Ubuntu
 Codename:     eoan
 Version:      19.10
 Build:
+IsWSL:        false
+```
+
+#### Ubuntu Linux running under WSL
+
+```
+Family:       linux
+Architecture: amd64
+ID:           ubuntu
+Name:         Ubuntu (WSL)
+Codename:     eoan
+Version:      19.10
+Build:
+IsWSL:        true
 ```
 
 ### Alpine Linux
@@ -73,6 +88,7 @@ Name:         Alpine Linux
 Codename:
 Version:      3.8.0
 Build:
+IsWSL:        false
 ```
 
 #### Windows
@@ -85,6 +101,7 @@ Name:         Windows 10 Pro
 Codename:     1903
 Version:      10.0
 Build:        18362
+IsWSL:        false
 ```
 
 #### FreeBSD
@@ -97,6 +114,7 @@ Name:         FreeBSD
 Codename:
 Version:      12.0-RELEASE
 Build:        r341666
+IsWSL:        false
 ```
 
 #### Mac OS
@@ -109,4 +127,5 @@ Name:         Mac OS X
 Codename:     Sierra
 Version:      10.12.6
 Build:        16G2136
+IsWSL:        false
 ```
