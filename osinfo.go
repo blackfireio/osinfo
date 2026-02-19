@@ -2,7 +2,7 @@
 // code is running on.
 package osinfo
 
-// Copyright: (c) 2019-2023 Platform.sh (https://blackfire.io)
+// Copyright: (c) 2019-2026 Upsun (https://blackfire.io)
 // License:   MIT
 // Author:    Karl Stenerud
 
